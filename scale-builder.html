@@ -13,6 +13,7 @@
   --ok-bg:#e6f4ea;--ok-tx:#1e6b34;--warn-bg:#fdf1dc;--warn-tx:#7a4a06;--err-bg:#fdeaea;--err-tx:#a32d2d;
   --gap-fill:#fcebeb;--gap-line:#e24b4a;--gap-stripe:#f09595;--ov-fill:#faeeda;--ov-line:#ba7517;--ov-tx:#633806;
   --grid:#e8ebf1;
+  --inf:#6a4bd6;--inf-bg:#f1ecff;--inf-bd:#c9bcf7;--on-inf:#ffffff;--inf-glow:rgba(106,75,214,.45);
   font-family:Inter,"Segoe UI",Roboto,system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){
@@ -24,6 +25,7 @@
     --ok-bg:#16301f;--ok-tx:#8fd5a3;--warn-bg:#3a2a0e;--warn-tx:#f2c46d;--err-bg:#3b1717;--err-tx:#f19c9c;
     --gap-fill:#3b1717;--gap-line:#e24b4a;--gap-stripe:#6b2626;--ov-fill:#3a2a0e;--ov-line:#d79a3a;--ov-tx:#f2c46d;
     --grid:#262b36;
+    --inf:#b6a4ff;--inf-bg:#251e42;--inf-bd:#4a3d85;--on-inf:#1b1536;--inf-glow:rgba(182,164,255,.45);
   }
 }
 *{box-sizing:border-box}
@@ -77,10 +79,63 @@ pre{font-family:ui-monospace,Menlo,monospace;font-size:12px;overflow:auto;max-he
 .tpl-menu button{display:block;width:100%;text-align:left;border:none;background:none;padding:8px 10px}
 .tpl-menu button:hover{background:var(--row)}
 .tpl-menu small{display:block;color:var(--text2)}
+/* бесконечность: единый фиолетовый язык */
+.infc{color:var(--inf);font-weight:700}
+.infchip{height:36px;border-radius:8px;background:var(--inf-bg);border:1px dashed var(--inf-bd);color:var(--inf);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;cursor:help}
+.nochip{height:36px;border-radius:8px;background:var(--field-dis);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:help;font-size:12px}
+.bw{position:relative}.bw.up input{padding-right:58px}
+.bw .suf{position:absolute;right:7px;top:7px;font-size:12px;line-height:20px;background:var(--inf-bg);color:var(--inf);border-radius:6px;padding:0 6px;font-weight:700;pointer-events:none}
+.seg{display:inline-flex;border:1px solid var(--border2);border-radius:9px;overflow:hidden;margin-left:10px;font-weight:500}
+.seg button{border:none;border-radius:0;background:var(--field);padding:4px 10px;font-size:12px;color:var(--text2)}
+.seg button+button{border-left:1px solid var(--border2)}
+.seg button.on{background:var(--primary);color:var(--on-primary)}
+.seg button.on .infc{color:var(--on-primary)}
+.read{margin-top:8px;font-size:13px;color:var(--text2);display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.read b{color:var(--text);font-weight:600}
+.miss{color:var(--err-tx);font-weight:700}
+.hint{margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--inf-bg);border:1px solid var(--inf-bd);border-radius:10px;padding:8px 12px;font-size:13px}
+.hint .tx{flex:1;min-width:220px}
+.hint button{padding:5px 12px;font-size:13px;background:var(--inf);border-color:var(--inf);color:var(--on-inf);font-weight:600}
+.attn{outline:2px solid var(--inf)!important;outline-offset:1px;animation:attn 1.4s ease-in-out infinite}
+@keyframes attn{0%,100%{box-shadow:0 0 0 0 var(--inf-glow)}50%{box-shadow:0 0 0 7px transparent}}
+@media (prefers-reduced-motion:reduce){.attn{animation:none}}
+.recipes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.rec{border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text2);transition:box-shadow .2s,border-color .2s,background .2s}
+.rec b{color:var(--text)}
+.rec.glow{border-color:var(--inf);background:var(--inf-bg);box-shadow:0 0 0 3px var(--inf-bd)}
+.mini{display:flex;gap:4px;align-items:center;margin-top:6px;flex-wrap:wrap}
+.mini span{border:1px solid var(--border2);border-radius:6px;padding:1px 8px;background:var(--field);font-size:12px;color:var(--text)}
+.mini span.k{border-color:var(--inf);color:var(--inf);font-weight:700;background:var(--inf-bg)}
+.mini span.lbl{background:var(--field-dis);border-color:transparent;color:var(--text2)}
+#tail{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 @media (max-width:820px){
+  .recipes{grid-template-columns:1fr}
+  .rw-head{flex-wrap:wrap}
   .rw-grid{grid-template-columns:1fr 80px auto 80px 1fr}
   .rw-grid .pct{grid-column:1 / 3}.rw-grid .eq{grid-column:3 / 5}
 }
+select:disabled{background:var(--field-dis);color:var(--text2);opacity:1;cursor:not-allowed}
+input:disabled{cursor:not-allowed}
+.pos{font-size:12px;font-weight:500;color:var(--inf);background:var(--inf-bg);border-radius:6px;padding:2px 8px}
+.recipes{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.rec .n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--inf-bg);color:var(--inf);align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-right:6px}
+.hint.err{background:var(--err-bg);border-color:var(--gap-line)}
+.hint.err button{background:var(--gap-line);border-color:var(--gap-line);color:#fff}
+.hint.err .attn,.attn.e{outline-color:var(--gap-line)!important}
+#dirTag{font-size:13px;color:var(--text2);margin-left:auto}
+#dirTag b{color:var(--text)}
+.add-note{font-size:12px;color:var(--text2)}
+.exs{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.ex{display:grid;grid-template-columns:20px auto auto 1fr;align-items:center;gap:8px;padding:4px 8px;border-radius:8px;font-size:12px}
+.ex.ok{background:var(--ok-bg)}.ex.bad{background:var(--err-bg)}
+.ex .mk{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff}
+.ex.ok .mk{background:#2e8b4e}.ex.bad .mk{background:var(--gap-line)}
+.ex .sq{font-weight:600;color:var(--text);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ex .sq i{font-style:normal;color:var(--muted);font-weight:400}
+.ex .sq em{font-style:normal;color:var(--err-tx);text-decoration:underline wavy var(--gap-line);text-underline-offset:3px}
+.ex .why{color:var(--text2)}.ex.ok .why{color:var(--ok-tx)}.ex.bad .why{color:var(--err-tx)}
+.ex .sp{display:block}
+.ex:not(:has(.sp)){grid-template-columns:20px auto 1fr}
 </style>
 </head>
 <body>
@@ -109,8 +164,21 @@ pre{font-family:ui-monospace,Menlo,monospace;font-size:12px;overflow:auto;max-he
     </select>
    </div>
 
+   <div>
+    <div class="sec"><h2>Параметры КПЭ</h2></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;align-items:flex-end">
+     <label style="display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--text2);width:220px">Тип формулы КПЭ
+      <select id="kForm"><option value="abs">Абсолютная</option><option value="rel">Относительная</option></select></label>
+     <label style="display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--text2);width:220px">Единица измерения
+      <select id="kUnit"><option>%</option><option>руб.</option><option>тыс. руб.</option><option>млн руб.</option><option>шт.</option><option>дн.</option><option>чел.</option><option>баллы</option></select></label>
+     <span id="kNote" class="add-note" style="flex:1;min-width:240px"></span>
+    </div>
+   </div>
+
    <div class="sec">
     <h2>Шкала оценки</h2>
+    <span id="dirTag" title="Направление определяется автоматически по оценкам интервалов"></span>
+    <button id="newBtn" title="Начать с пустой шкалы: интервал от −∞ и интервал до +∞">＋ Создать шкалу</button>
     <div class="tpl">
      <button id="tplBtn" aria-haspopup="true" aria-expanded="false">Выбрать из шаблона ▾</button>
      <div id="tplMenu" class="tpl-menu" role="menu"></div>
@@ -122,22 +190,31 @@ pre{font-family:ui-monospace,Menlo,monospace;font-size:12px;overflow:auto;max-he
      <span style="font-weight:600">Как работает шкала</span>
      <span id="sum" class="tag"></span>
     </div>
-    <svg id="chart" viewBox="0 0 1000 300" style="width:100%;display:block;margin-top:6px" role="img" aria-label="График оценки и линейка покрытия интервалов"></svg>
+    <svg id="chart" viewBox="0 0 1000 300" style="width:100%;display:block;margin-top:6px" role="img" aria-label="График оценки и линейка интервалов"></svg>
     <div class="legend">
      <span><svg width="14" height="12"><circle cx="7" cy="6" r="4.5" fill="#378ADD"/></svg>граница входит в интервал</span>
      <span><svg width="14" height="12"><circle cx="7" cy="6" r="4.5" fill="none" stroke="#378ADD" stroke-width="1.6"/></svg>не входит</span>
-     <span><svg width="20" height="12"><rect x="1" y="1" width="18" height="10" rx="2" fill="var(--gap-fill)" stroke="var(--gap-line)" stroke-dasharray="2 2"/></svg>не покрыто</span>
-     <span><svg width="20" height="12"><rect x="1" y="1" width="18" height="10" rx="2" fill="var(--ov-fill)" stroke="var(--ov-line)"/></svg>пересечение</span>
+     <span><svg width="20" height="12"><path d="M1 6 L8 1 L8 11Z" fill="var(--inf)"/><rect x="8" y="3" width="11" height="6" fill="var(--inf-bd)"/></svg>уходит в бесконечность</span>
+     <span><svg width="20" height="12"><rect x="1" y="1" width="18" height="10" rx="2" fill="url(#hzl)" stroke="var(--gap-line)" stroke-dasharray="2 2"/><defs><pattern id="hzl" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="4" fill="var(--gap-fill)"/><line x1="0" y1="0" x2="0" y2="4" stroke="var(--gap-stripe)" stroke-width="1.5"/></pattern></defs></svg>оценка вне 0–100 %</span>
+     <span><svg width="14" height="14"><path d="M7 1 V10" stroke="var(--gap-line)" stroke-width="2.5"/><path d="M3 9 L11 9 L7 13Z" fill="var(--gap-line)"/></svg>смена направления оценки</span>
     </div>
     <div class="probe">
      <label for="probe" style="color:var(--text2)">Проверить значение выполнения</label>
      <input id="probe" type="number" placeholder="например, 95">
      <span id="pres"></span>
     </div>
+    <div class="recipes" aria-label="Правила шкалы">
+     <div class="rec" id="recSeq"><b><span class="n">1</span>Интервалы идут подряд</b><br>Первый начинается с <span class="infc">−∞</span>, последний идёт до <span class="infc">+∞</span>. Начало каждого интервала подставляется из конца предыдущего — вводите только правую границу.
+      <div class="mini"><span class="k">−∞</span><span class="lbl">…</span><span>70</span><span class="lbl">…</span><span>100</span><span class="lbl">…</span><span class="k">+∞</span></div></div>
+     <div class="rec" id="recMono"><b><span class="n">2</span>Оценка меняется в одну сторону</b><br>С ростом значения КПЭ оценка только растёт или только снижается. Направление определяется само.
+      <div class="exs"><div class="ex ok"><span class="mk" aria-label="верно">✓</span><span class="sq">0 <i>→</i> 50 <i>→</i> 100</span><svg class="sp" width="54" height="22" viewBox="0 0 54 22" aria-hidden="true"><polyline points="4,19 27,11 50,3" fill="none" stroke="var(--ok-tx)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="4" cy="19" r="2.6" fill="var(--ok-tx)"/><circle cx="27" cy="11" r="2.6" fill="var(--ok-tx)"/><circle cx="50" cy="3" r="2.6" fill="var(--ok-tx)"/></svg><span class="why">растёт — верно</span></div><div class="ex ok"><span class="mk" aria-label="верно">✓</span><span class="sq">100 <i>→</i> 50 <i>→</i> 0</span><svg class="sp" width="54" height="22" viewBox="0 0 54 22" aria-hidden="true"><polyline points="4,3 27,11 50,19" fill="none" stroke="var(--ok-tx)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="4" cy="3" r="2.6" fill="var(--ok-tx)"/><circle cx="27" cy="11" r="2.6" fill="var(--ok-tx)"/><circle cx="50" cy="19" r="2.6" fill="var(--ok-tx)"/></svg><span class="why">снижается — верно</span></div><div class="ex ok"><span class="mk" aria-label="верно">✓</span><span class="sq">0 <i>→</i> 0 <i>→</i> 100</span><svg class="sp" width="54" height="22" viewBox="0 0 54 22" aria-hidden="true"><polyline points="4,19 27,19 50,3" fill="none" stroke="var(--ok-tx)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="4" cy="19" r="2.6" fill="var(--ok-tx)"/><circle cx="27" cy="19" r="2.6" fill="var(--ok-tx)"/><circle cx="50" cy="3" r="2.6" fill="var(--ok-tx)"/></svg><span class="why">повтор допустим — верно</span></div><div class="ex bad"><span class="mk" aria-label="ошибка">✗</span><span class="sq">100 <i>→</i> 0 <i>→</i> <em>50</em></span><svg class="sp" width="54" height="22" viewBox="0 0 54 22" aria-hidden="true"><polyline points="4,3 27,19 50,11" fill="none" stroke="var(--err-tx)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="4" cy="3" r="2.6" fill="var(--err-tx)"/><circle cx="27" cy="19" r="2.6" fill="var(--err-tx)"/><circle cx="50" cy="11" r="2.6" fill="var(--gap-line)"/></svg><span class="why">сначала снизилась, потом выросла — ошибка</span></div></div></div>
+     <div class="rec" id="recRange"><b><span class="n">3</span>Оценка от 0 до 100 %</b><br>Для «Оценка = значению» весь интервал должен лежать в пределах 0–100, поэтому у первого и последнего интервала такой вариант недоступен. Не доступен он и при абсолютной формуле, если единица измерения не «%».
+      <div class="exs"><div class="ex ok"><span class="mk" aria-label="верно">✓</span><span class="sq">0 % <i>→</i> 50 % <i>→</i> 100 %</span><span class="why">в пределах 0–100 % — верно</span></div><div class="ex bad"><span class="mk" aria-label="ошибка">✗</span><span class="sq">50 % <i>→</i> 100 % <i>→</i> <em>120 %</em></span><span class="why">больше 100 % — ошибка</span></div><div class="ex bad"><span class="mk" aria-label="ошибка">✗</span><span class="sq"><em>-10 %</em> <i>→</i> 0 % <i>→</i> 50 %</span><span class="why">меньше 0 % — ошибка</span></div></div></div>
+    </div>
    </div>
 
    <div id="rows" class="rows"></div>
-   <div><button id="add" class="primary">＋ Добавить интервал</button></div>
+   <div id="tail"><button id="add" class="primary">＋ Добавить интервал</button><span class="add-note">Новый интервал встанет перед последним (до <span class="infc">+∞</span>)</span></div>
 
    <details>
     <summary>Данные шкалы (JSON)</summary>
@@ -153,108 +230,164 @@ pre{font-family:ui-monospace,Menlo,monospace;font-size:12px;overflow:auto;max-he
 const PAL=[
  {c:'#378ADD',bg:'#E6F1FB',tx:'#0C447C'},{c:'#1D9E75',bg:'#E1F5EE',tx:'#085041'},{c:'#7F77DD',bg:'#EEEDFE',tx:'#3C3489'},
  {c:'#D4537E',bg:'#FBEAF0',tx:'#72243E'},{c:'#639922',bg:'#EAF3DE',tx:'#27500A'},{c:'#BA7517',bg:'#FAEEDA',tx:'#633806'}];
+/* строка шкалы: {s2:'<'|'<=', b, v, eq}. Начало берётся из предыдущей строки, у последней строки граница — +∞ */
+const row=(s2,b,v,eq)=>({s2,b:String(b),v:String(v),eq:!!eq});
 const TEMPLATES={
- example:{name:'Ниже 70 — 0 %, 70–120 — по факту, от 120 — 120 %',rows:[
-  {s1:'Нет',s2:'<',b:'70',v:'0',eq:false},{s1:'<=',s2:'<',b:'120',v:'',eq:true},{s1:'Нет',s2:'>=',b:'',v:'120',eq:false}]},
- threshold:{name:'Пороговая: 100 % и выше — 100 %, иначе 0',rows:[
-  {s1:'Нет',s2:'<',b:'100',v:'0',eq:false},{s1:'Нет',s2:'>=',b:'',v:'100',eq:false}]},
- steps:{name:'Ступени 90 / 100 / 110',rows:[
-  {s1:'Нет',s2:'<',b:'90',v:'0',eq:false},{s1:'<=',s2:'<',b:'100',v:'50',eq:false},{s1:'<=',s2:'<',b:'110',v:'100',eq:false},{s1:'Нет',s2:'>=',b:'',v:'120',eq:false}]},
- linear:{name:'Линейная с потолком 120 %',rows:[
-  {s1:'Нет',s2:'<',b:'120',v:'',eq:true},{s1:'Нет',s2:'>=',b:'',v:'120',eq:false}]},
- empty:{name:'Пустая шкала',rows:[{s1:'Нет',s2:'<',b:'',v:'',eq:false}]}
+ example:{name:'Ниже 70 — 0 %, 70–100 — по факту, от 100 — 100 %',rows:[row('<',70,0),row('<',100,'',true),row('<','',100)]},
+ threshold:{name:'Пороговая: от 100 — 100 %, иначе 0',rows:[row('<',100,0),row('<','',100)]},
+ steps:{name:'Ступени 90 / 100 / 110',rows:[row('<',90,0),row('<',100,50),row('<',110,80),row('<','',100)]},
+ linear:{name:'Линейная 0–100 %',rows:[row('<',0,0),row('<',100,'',true),row('<','',100)]},
+ reverse:{name:'Обратная: чем меньше значение, тем выше оценка',rows:[row('<=',90,100),row('<=',100,80),row('<=',110,50),row('<','',0)]},
+ jumps:{name:'Демо: смена направления (50 → 100 → 80 → 30)',rows:[row('<',0,50),row('<',50,100),row('<',100,80),row('<','',30)]},
+ range:{name:'Демо: оценка выше 100 % (70–120 по факту)',rows:[row('<',70,0),row('<',120,'',true),row('<','',120)]},
+ empty:{name:'Пустая шкала',rows:[row('<','',''),row('<','','')]}
 };
-const KEY='scale-builder-draft-v1';
+const KEY='scale-builder-draft-v3';
+let H=[];
 let R=load()||clone(TEMPLATES.example.rows);
 let hov=-1;
+let K=(()=>{try{const k=JSON.parse(localStorage.getItem(KEY+'-kpi'));if(k&&k.formula&&k.unit)return k}catch(e){}return{formula:'abs',unit:'%'}})();
+/* значение выполнения можно взять как оценку, только если оно в процентах */
+const eqBan=()=>K.formula==='abs'&&K.unit!=='%';
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
-function load(){try{const s=localStorage.getItem(KEY);return s?JSON.parse(s):null}catch(e){return null}}
+function norm(x){if(!Array.isArray(x))return null;const r=x.filter(o=>o&&typeof o==='object').map(o=>row(o.s2==='<='?'<=':'<',o.b??'',o.v??'',o.eq));while(r.length<2)r.push(row('<','',''));return r}
+function load(){try{const s=localStorage.getItem(KEY);return s?norm(JSON.parse(s)):null}catch(e){return null}}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(R))}catch(e){}}
 const num=x=>x===''||x==null?NaN:parseFloat(String(x).replace(',','.'));
-const isUp=s=>s==='>'||s==='>=';
 const fmt=v=>v===-Infinity?'−∞':v===Infinity?'+∞':String(Math.round(v*100)/100).replace('.',',');
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const clamp=v=>Math.max(0,Math.min(100,v));
 
-/* связь интервалов: стыкующаяся граница берётся из конца предыдущего */
-function link(){R.forEach((r,i)=>{r.la=false;r.lb=false;if(!i)return;const pb=R[i-1].b;
- if(r.s1!=='Нет'){r.a=pb;r.la=true}else if(isUp(r.s2)){r.b=pb;r.lb=true}})}
+function analyze(){const n=R.length;
+ const P=R.map((r,i)=>{const first=i===0,last=i===n-1,prev=R[i-1];
+  const a=first?-Infinity:num(prev.b),ai=first?false:prev.s2==='<';
+  const b=last?Infinity:num(r.b),bi=last?false:r.s2==='<=';
+  const v=num(r.v),eq=!!r.eq,missing=[],errs=[];
+  if(!last&&isNaN(b))missing.push('граница');
+  if(!eq&&isNaN(v))missing.push('оценка');
+  if(!first&&!last&&!isNaN(a)&&!isNaN(b)&&b<=a)errs.push({kind:'order',text:`граница должна быть больше ${fmt(a)} — конца интервала ${i}`});
+  if(!eq&&!isNaN(v)&&(v<0||v>100))errs.push({kind:'range',text:`оценка ${fmt(v)} % вне диапазона 0–100 %`});
+  if(eq&&eqBan())errs.push({kind:'eqUnit',text:`«Оценка = значению» недоступна: формула абсолютная, а единица измерения — «${K.unit}», не проценты`});
+  else if(eq&&(first||last))errs.push({kind:'eqEdge',text:`«Оценка = значению» недоступна для ${first?'первого':'последнего'} интервала — он уходит в ${first?'−∞':'+∞'}`});
+  else if(eq&&!isNaN(a)&&!isNaN(b)&&(a<0||b>100))errs.push({kind:'eqRange',text:`при «Оценка = значению» оценка здесь доходит до ${fmt(a<0?a:b)} % — интервал должен лежать в пределах 0–100`});
+  const known=!isNaN(a)&&!isNaN(b)&&a<b;
+  return{i,first,last,a,b,ai,bi,v,eq,missing,errs,known,filled:!missing.length&&!errs.length,
+   any:r.b!==''||r.v!==''||eq}});
+ /* монотонность: последовательность оценок слева направо должна идти в одну сторону */
+ let dir=0,dirAt=null,prev=null;const jumps=[];
+ P.forEach(p=>{if(p.errs.some(e=>e.kind==='eqEdge'))return;
+  const pts=p.eq?[[p.a,p.a,false],[p.b,p.b,true]]:[[p.v,p.a,false],[p.v,p.b,true]];
+  pts.forEach(([y,x,inner])=>{if(isNaN(y)||!isFinite(y))return;
+   if(prev){const d=Math.sign(y-prev.y);
+    if(d){if(!dir){dir=d;dirAt={p:prev.i,q:p.i,y1:prev.y,y2:y}}
+     else if(d!==dir&&!jumps.some(j=>j.q===p.i))jumps.push({q:p.i,p:prev.i,x:inner?(p.a+p.b)/2:x,inner,y1:prev.y,y2:y,dir,dirAt})}}
+   prev={y,i:p.i}})});
+ P.forEach(p=>{p.jump=jumps.find(j=>j.q===p.i)||null});
+ return{P,jumps,dir,dirAt}}
 
-function parse(r){let a,b,ai,bi,err='';const A=num(r.a),B=num(r.b);
- if(r.s1==='Нет'){
-  if(isUp(r.s2)){a=B;ai=r.s2==='>=';b=Infinity;bi=false}else{a=-Infinity;ai=false;b=B;bi=r.s2==='<='}
- }else{a=A;ai=r.s1==='<=';b=B;bi=r.s2==='<=';if(isUp(r.s2))err='знаки «>» и «>=» справа допустимы только при «Нет» слева'}
- const missing=[];if(r.s1!=='Нет'&&isNaN(A))missing.push('начало');if(isNaN(B))missing.push('граница');
- if(!r.eq&&isNaN(num(r.v)))missing.push('оценка');
- const any=r.b!==''||r.v!==''||r.eq||(r.s1!=='Нет'&&r.a!=='');
- let filled=!err&&!missing.length;
- if(filled&&(a>b||(a===b&&!(ai&&bi)))){err='начало интервала больше конца';filled=false}
- return{a,b,ai,bi,err,missing,any,filled,eq:!!r.eq,v:num(r.v)}}
+const dirWord=d=>d>0?'растёт':'снижается';
 
-function analyze(){link();const P=R.map((r,i)=>Object.assign(parse(r),{i}));
- const ok=P.filter(p=>p.filled).sort((x,y)=>x.a-y.a||(y.ai-x.ai));
- const gaps=[],ovs=[];let e=-Infinity,ei=true,st=false;
- for(const p of ok){
-  if(!st&&p.a===-Infinity){}
-  else if(p.a>e||(p.a===e&&!ei&&!p.ai))gaps.push({a:e,b:p.a,pt:p.a===e});
-  else if(st&&(p.a<e||(p.a===e&&ei&&p.ai))){const o={a:p.a,b:Math.min(e,p.b),pt:p.a===e,with:[p.i]};
-   ok.forEach(q=>{if(q!==p&&q.filled&&(q.b>p.a||(q.b===p.a&&q.bi&&p.ai))&&(q.a<p.a||(q.a===p.a)))o.with.push(q.i)});ovs.push(o)}
-  if(!st||p.b>e||(p.b===e&&p.bi&&!ei)){e=p.b;ei=p.bi}st=true}
- if(!st)gaps.push({a:-Infinity,b:Infinity,pt:false});else if(e!==Infinity)gaps.push({a:e,b:Infinity,pt:false});
- P.forEach(p=>{p.ov=ovs.some(o=>o.with.includes(p.i))});
- return{P,gaps,ovs}}
+/* подсказки: что не так и как исправить одним нажатием */
+function hints(A){const out=[];
+ A.P.forEach(p=>{const r=R[p.i];
+  p.errs.forEach(e=>{
+   if(e.kind==='order')out.push({row:p.i,err:true,rec:'seq',attn:['b'],text:`Граница должна быть больше ${fmt(p.a)}: интервалы идут подряд, и этот начинается там, где закончился интервал ${p.i}.`,focus:`${p.i}-b`});
+   if(e.kind==='range'){const t=p.v>100?100:0;out.push({row:p.i,err:true,rec:'range',attn:['v'],text:`Оценка должна быть от 0 до 100 %, сейчас ${fmt(p.v)} %.`,btn:`Поставить ${t} %`,fix:()=>{r.v=String(t)}})}
+   if(e.kind==='eqUnit')out.push({row:p.i,err:true,rec:'range',attn:['eq'],
+    text:`Формула КПЭ абсолютная, а единица измерения — «${esc(K.unit)}». Значение выполнения здесь не в процентах, поэтому его нельзя использовать как оценку. Задайте фиксированную оценку или смените параметры КПЭ.`,
+    btn:'Задать фиксированную оценку',fix:()=>{r.eq=false;r.v=''},focus:`${p.i}-v`});
+   if(e.kind==='eqEdge'||e.kind==='eqRange')out.push({row:p.i,err:true,rec:'range',attn:['eq'],
+    text:e.kind==='eqEdge'?`${p.first?'Первый':'Последний'} интервал уходит в <span class="infc">${p.first?'−∞':'+∞'}</span>, поэтому оценка «= значению» вышла бы за пределы 0–100 %. Задайте фиксированную оценку.`
+     :`При «Оценка = значению» оценка в этом интервале доходит до ${fmt(p.a<0?p.a:p.b)} %, а допустимо 0–100 %. ${p.b>100?'Поставьте границу не больше 100 или задайте фиксированную оценку.':'Задайте фиксированную оценку.'}`,
+    btn:'Задать фиксированную оценку',fix:()=>{r.eq=false;r.v=''},focus:`${p.i}-v`})})});
+ A.jumps.forEach(j=>{const r=R[j.q],d=j.dirAt,t=clamp(j.y1);
+  out.push({row:j.q,err:true,rec:'mono',attn:[r.eq?'eq':'v'],
+   text:`<b>Оценка меняет направление.</b> С интервала ${d.p+1} на ${d.q+1} она ${dirWord(j.dir)} (${fmt(d.y1)} → ${fmt(d.y2)} %), а ${j.inner?'внутри этого интервала':j.p===j.q?'здесь':'после интервала '+(j.p+1)} — ${dirWord(-j.dir)} (${fmt(j.y1)} → ${fmt(j.y2)} %). Оценка должна идти в одну сторону, например 0 → 50 → 100 или 100 → 50 → 0.`,
+   btn:j.inner?`Задать фиксированную ${fmt(t)} %`:`Поставить ${fmt(t)} %`,fix:()=>{r.eq=false;r.v=String(t)}})});
+ return out}
+
+function applyFix(k){const h=H[k];if(!h)return;if(h.fix)h.fix();render();
+ const f=h.focus;
+ if(f){const el=document.querySelector(`[data-id="${f}"]`);if(el&&!el.disabled){el.focus();el.scrollIntoView({behavior:'smooth',block:'center'})}}
+ if(h.fix)toast('Исправлено')}
+
+function reading(p){const r=R[p.i];
+ const q=x=>isNaN(x)?'<span class="miss">?</span>':x===-Infinity?'<span class="infc">−∞</span>':x===Infinity?'<span class="infc">+∞</span>':esc(fmt(x));
+ const f=`${q(p.a)} ${p.ai?'≤':'&lt;'} значение ${p.bi?'≤':'&lt;'} ${q(p.b)}`;
+ const sc=r.eq?'оценка = значению выполнения':isNaN(p.v)?'оценка <span class="miss">?</span>':`оценка ${esc(fmt(p.v))} %`;
+ return `<span>Читается так:</span> <b>${f}</b> <span>→ ${sc}</span>`}
 
 const score=(p,x)=>p.eq?x:p.v;
-const hits=(P,x)=>P.filter(p=>p.filled&&(x>p.a||(x===p.a&&p.ai))&&(x<p.b||(x===p.b&&p.bi)));
+const hits=(P,x)=>P.filter(p=>p.known&&!isNaN(score(p,x))&&(x>p.a||(x===p.a&&p.ai))&&(x<p.b||(x===p.b&&p.bi)));
 
 function draw(A){
- const W=1000,L=70,Rt=930;const F=[0];A.P.forEach(p=>[p.a,p.b].forEach(v=>{if(isFinite(v))F.push(v)}));
+ const L=70,Rt=930;const F=[];A.P.forEach(p=>[p.a,p.b].forEach(v=>{if(isFinite(v))F.push(v)}));
  const pv=num(document.getElementById('probe').value);if(!isNaN(pv))F.push(pv);
- let lo=Math.min(...F),hi=Math.max(...F);const pad=Math.max(20,(hi-lo)*0.2);lo-=pad;hi+=pad;
+ /* масштаб по оси X — по границам интервалов: крайние границы с отступом, без обязательного нуля */
+ const BX=[...new Set(A.P.flatMap(p=>[p.a,p.b]).filter(v=>isFinite(v)))].sort((x,y)=>x-y);
+ if(!F.length)F.push(0,100);
+ let lo=Math.min(...F),hi=Math.max(...F);
+ const pad=hi>lo?(hi-lo)*0.14:Math.max(Math.abs(lo)*0.2,10);lo-=pad;hi+=pad;
  const sx=v=>v===-Infinity?L-36:v===Infinity?Rt+36:L+(v-lo)/(hi-lo)*(Rt-L);
  const cl=v=>Math.max(lo,Math.min(hi,v));
- let ymax=10;A.P.forEach(p=>{if(p.filled)[cl(p.a),cl(p.b)].forEach(x=>{ymax=Math.max(ymax,score(p,x))})});ymax*=1.18;
- const GT=20,GB=170,sy=v=>GB-(Math.max(0,Math.min(v,ymax))/ymax)*(GB-GT);
+ const D=A.P.filter(p=>p.known);
+ let ymax=100,ymin=0;D.forEach(p=>[cl(p.a),cl(p.b)].forEach(x=>{const y=score(p,x);if(!isNaN(y)){ymax=Math.max(ymax,y);ymin=Math.min(ymin,y)}}));
+ const over=ymax>100,under=ymin<0;ymax=ymax+(ymax-ymin)*0.12;if(ymin<0)ymin-=(ymax-ymin)*0.06;
+ const GT=20,GB=170,sy=v=>GB-((Math.max(ymin,Math.min(v,ymax))-ymin)/(ymax-ymin))*(GB-GT);
  const RY=206,RH=28;
  let h=`<defs><pattern id="hz" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="var(--gap-fill)"/><line x1="0" y1="0" x2="0" y2="7" stroke="var(--gap-stripe)" stroke-width="2.5"/></pattern></defs>`;
  h+=`<text x="${L-10}" y="${GT-6}" font-size="12" text-anchor="end" fill="var(--muted)">оценка</text>`;
- const ys=ymax>250?100:ymax>100?50:ymax>40?20:10;
- for(let v=0;v<ymax;v+=ys)h+=`<line x1="${L}" y1="${sy(v)}" x2="${Rt}" y2="${sy(v)}" stroke="var(--grid)"/><text x="${L-10}" y="${sy(v)+4}" font-size="12" text-anchor="end" fill="var(--muted)">${v} %</text>`;
- const span=hi-lo,xs=span>600?200:span>300?100:span>120?50:span>50?20:10;
- for(let v=Math.ceil(lo/xs)*xs;v<=hi;v+=xs)h+=`<line x1="${sx(v)}" y1="${GT}" x2="${sx(v)}" y2="${RY+RH+6}" stroke="var(--grid)"/><text x="${sx(v)}" y="${RY+RH+22}" font-size="12" text-anchor="middle" fill="var(--muted)">${v}</text>`;
- h+=`<text x="${sx(-Infinity)}" y="${RY+RH+22}" font-size="13" text-anchor="middle" fill="var(--muted)">−∞</text><text x="${sx(Infinity)}" y="${RY+RH+22}" font-size="13" text-anchor="middle" fill="var(--muted)">+∞</text>`;
- h+=`<text x="${(L+Rt)/2}" y="${RY+RH+42}" font-size="12" text-anchor="middle" fill="var(--muted)">значение выполнения КПЭ</text>`;
- const badge=(x,y,t,fill,tx)=>{const w=t.length*6.6+16;return `<rect x="${x-w/2}" y="${y-13}" width="${w}" height="19" rx="4" fill="${fill}"/><text x="${x}" y="${y+1}" font-size="12" text-anchor="middle" fill="${tx}">${esc(t)}</text>`};
- A.gaps.forEach(g=>{const x1=sx(g.a),x2=sx(g.b);
-  if(g.pt){h+=`<line x1="${x1}" y1="${GT}" x2="${x1}" y2="${RY+RH+4}" stroke="var(--gap-line)" stroke-width="2" stroke-dasharray="5 4"/>`+badge(x1,RY-10,`значение ${fmt(g.a)} не покрыто`,'var(--gap-fill)','var(--err-tx)');return}
-  h+=`<rect x="${x1}" y="${RY}" width="${x2-x1}" height="${RH}" rx="4" fill="url(#hz)" stroke="var(--gap-line)" stroke-dasharray="4 3"/>`;
-  const t=g.a===-Infinity&&g.b===Infinity?'шкала не заполнена':g.b===Infinity?`не покрыто: ${g.pt?'':'от '}${fmt(g.a)} и выше`:g.a===-Infinity?`не покрыто: ниже ${fmt(g.b)}`:`не покрыто: ${fmt(g.a)}–${fmt(g.b)}`;
-  h+=`<text x="${(Math.max(x1,L)+Math.min(x2,Rt))/2}" y="${RY+RH/2+4}" font-size="12" text-anchor="middle" fill="var(--err-tx)" font-weight="600">${esc(t)}</text>`});
- A.ovs.forEach(o=>{const x1=sx(o.a),x2=sx(o.b);const t=`${o.pt?'значение '+fmt(o.a):fmt(o.a)+'–'+fmt(o.b)} в интервалах ${[...new Set(o.with)].sort().map(i=>i+1).join(' и ')}`;
-  h+=o.pt?`<line x1="${x1}" y1="${GT}" x2="${x1}" y2="${RY+RH+4}" stroke="var(--ov-line)" stroke-width="2"/>`:`<rect x="${x1}" y="${RY-5}" width="${Math.max(2,x2-x1)}" height="${RH+10}" rx="4" fill="none" stroke="var(--ov-line)" stroke-width="2"/>`;
-  h+=badge((x1+x2)/2,RY-10,t,'var(--ov-fill)','var(--ov-tx)')});
- A.P.forEach(p=>{if(!p.filled)return;const k=PAL[p.i%PAL.length],x1=sx(p.a),x2=sx(p.b),dim=hov>=0&&hov!==p.i,col=p.ov?'var(--ov-line)':k.c;
-  h+=`<g data-seg="${p.i}" style="cursor:pointer" opacity="${dim?0.28:1}"><rect x="${x1}" y="${RY}" width="${Math.max(3,x2-x1)}" height="${RH}" rx="4" fill="${p.ov?'var(--ov-fill)':k.bg}" stroke="${col}" stroke-width="${hov===p.i?2.5:1.2}"/>`;
-  const lab=`${p.i+1}: ${p.eq?'= выполнению':fmt(p.v)+' %'}`;
-  if(x2-x1>lab.length*7)h+=`<text x="${(x1+x2)/2}" y="${RY+RH/2+5}" font-size="13" font-weight="600" text-anchor="middle" fill="${p.ov?'var(--ov-tx)':k.tx}">${esc(lab)}</text>`;
+ /* недопустимые зоны оценки */
+ if(over)h+=`<rect x="${L}" y="${sy(ymax)}" width="${Rt-L}" height="${sy(100)-sy(ymax)}" fill="url(#hz)" opacity=".55"/><text x="${Rt-6}" y="${sy(100)-6}" font-size="12" text-anchor="end" fill="var(--err-tx)" font-weight="600">выше 100 % — недопустимо</text>`;
+ if(under)h+=`<rect x="${L}" y="${sy(0)}" width="${Rt-L}" height="${sy(ymin)-sy(0)}" fill="url(#hz)" opacity=".55"/><text x="${Rt-6}" y="${sy(0)+14}" font-size="12" text-anchor="end" fill="var(--err-tx)" font-weight="600">ниже 0 % — недопустимо</text>`;
+ const ys=ymax-ymin>250?100:ymax-ymin>100?25:20;
+ for(let v=Math.ceil(ymin/ys)*ys;v<=ymax;v+=ys)h+=`<line x1="${L}" y1="${sy(v)}" x2="${Rt}" y2="${sy(v)}" stroke="var(--grid)"/><text x="${L-10}" y="${sy(v)+4}" font-size="12" text-anchor="end" fill="var(--muted)">${v} %</text>`;
+ [0,100].forEach(v=>{h+=`<line x1="${L}" y1="${sy(v)}" x2="${Rt}" y2="${sy(v)}" stroke="var(--border2)" stroke-dasharray="6 4"/>`});
+ /* обычная сетка: «красивый» шаг, подписи не ставим рядом с границами интервалов */
+ const raw=(hi-lo)/7,mag=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/mag,xs=(f<1.5?1:f<3?2:f<7?5:10)*mag;
+ const near=v=>BX.some(b=>Math.abs(sx(b)-sx(v))<30);
+ for(let v=Math.ceil(lo/xs)*xs;v<=hi+1e-9;v+=xs){const vv=Math.round(v/xs)*xs;h+=`<line x1="${sx(vv)}" y1="${GT}" x2="${sx(vv)}" y2="${RY+RH+6}" stroke="var(--grid)"/>`;
+  if(!near(vv))h+=`<text x="${sx(vv)}" y="${RY+RH+22}" font-size="11" text-anchor="middle" fill="var(--muted)">${fmt(vv)}</text>`}
+ /* границы интервалов: всегда своя линия сетки и подпись значения; близкие подписи разносим по двум рядам */
+ let lastX=-1e9,lvl=0;
+ BX.forEach(b=>{const x=sx(b);lvl=x-lastX<34?1-lvl:0;lastX=x;const ty=RY+RH+22+lvl*14;
+  h+=`<line x1="${x}" y1="${GT}" x2="${x}" y2="${ty-11}" stroke="var(--border2)" stroke-width="1.2" stroke-dasharray="3 3"/><text x="${x}" y="${ty}" font-size="12" font-weight="700" text-anchor="middle" fill="var(--text)">${fmt(b)}</text>`});
+ [[-Infinity,'−∞'],[Infinity,'+∞']].forEach(([v,t])=>{h+=`<rect x="${sx(v)-19}" y="${RY+RH+8}" width="38" height="20" rx="6" fill="var(--inf-bg)" stroke="var(--inf-bd)"/><text x="${sx(v)}" y="${RY+RH+23}" font-size="14" font-weight="700" text-anchor="middle" fill="var(--inf)">${t}</text>`});
+ h+=`<text x="${(L+Rt)/2}" y="${RY+RH+52}" font-size="12" text-anchor="middle" fill="var(--muted)">значение выполнения КПЭ</text>`;
+ const badge=(x,y,t,fill,tx)=>{const w=t.length*6.6+16;x=Math.max(w/2+2,Math.min(1000-w/2-2,x));return `<rect x="${x-w/2}" y="${y-13}" width="${w}" height="19" rx="4" fill="${fill}"/><text x="${x}" y="${y+1}" font-size="12" text-anchor="middle" fill="${tx}">${esc(t)}</text>`};
+ /* строки, у которых не известны границы, — пунктирная заглушка */
+ A.P.forEach(p=>{if(p.known)return;const x1=isNaN(p.a)?null:sx(p.a),x2=isNaN(p.b)?null:sx(p.b);if(x1==null&&x2==null)return;
+  const xa=x1??x2-60,xb=x2??x1+60;h+=`<rect x="${Math.min(xa,xb)}" y="${RY}" width="${Math.abs(xb-xa)}" height="${RH}" rx="4" fill="url(#hz)" stroke="var(--gap-line)" stroke-dasharray="4 3"/><text x="${(xa+xb)/2}" y="${RY+RH/2+4}" font-size="12" text-anchor="middle" fill="var(--err-tx)" font-weight="600">${p.i+1}: ?</text>`});
+ D.forEach(p=>{const k=PAL[p.i%PAL.length],x1=sx(p.a),x2=sx(p.b),dim=hov>=0&&hov!==p.i,bad=p.errs.length||p.jump,col=bad?'var(--gap-line)':k.c;
+  h+=`<g data-seg="${p.i}" style="cursor:pointer" opacity="${dim?0.28:1}"><rect x="${x1}" y="${RY}" width="${Math.max(3,x2-x1)}" height="${RH}" rx="4" fill="${bad?'var(--err-bg)':k.bg}" stroke="${col}" stroke-width="${hov===p.i?2.5:1.2}"/>`;
+  if(p.a===-Infinity)h+=`<path d="M${x1-12} ${RY+RH/2} L${x1+2} ${RY-3} L${x1+2} ${RY+RH+3}Z" fill="var(--inf)"/>`;
+  if(p.b===Infinity)h+=`<path d="M${x2+12} ${RY+RH/2} L${x2-2} ${RY-3} L${x2-2} ${RY+RH+3}Z" fill="var(--inf)"/>`;
+  const lab=`${p.i+1}: ${p.eq?'= выполнению':isNaN(p.v)?'?':fmt(p.v)+' %'}`;
+  if(x2-x1>lab.length*7)h+=`<text x="${(x1+x2)/2}" y="${RY+RH/2+5}" font-size="13" font-weight="600" text-anchor="middle" fill="${bad?'var(--err-tx)':k.tx}">${esc(lab)}</text>`;
   else if(x2-x1>18)h+=`<text x="${(x1+x2)/2}" y="${RY+RH/2+5}" font-size="13" font-weight="600" text-anchor="middle" fill="${k.tx}">${p.i+1}</text>`;
-  const ga=cl(p.a),gb=cl(p.b),gx1=Math.max(x1,sx(lo)),gx2=Math.min(x2,sx(hi));
-  h+=`<line x1="${gx1}" y1="${sy(score(p,ga))}" x2="${gx2}" y2="${sy(score(p,gb))}" stroke="${col}" stroke-width="3" stroke-linecap="round"/>`;
-  if(p.a===-Infinity)h+=`<line x1="${x1}" y1="${sy(score(p,lo))}" x2="${gx1}" y2="${sy(score(p,lo))}" stroke="${col}" stroke-width="3" stroke-dasharray="4 4"/>`;
-  if(p.b===Infinity)h+=`<line x1="${gx2}" y1="${sy(score(p,hi))}" x2="${x2}" y2="${sy(score(p,hi))}" stroke="${col}" stroke-width="3" stroke-dasharray="4 4"/>`;
-  if(gx2-gx1>60){const mx=(gx1+gx2)/2,my=sy(score(p,(ga+gb)/2));h+=`<text x="${mx}" y="${my-10}" font-size="12" text-anchor="middle" fill="${k.tx}">${p.eq?'оценка = выполнению':fmt(p.v)+' %'}</text>`}
-  [[p.a,p.ai],[p.b,p.bi]].forEach(([x,inc])=>{if(!isFinite(x))return;
-   h+=`<circle cx="${sx(x)}" cy="${sy(score(p,x))}" r="5.5" fill="${inc?col:'var(--surface)'}" stroke="${col}" stroke-width="2"/><circle cx="${sx(x)}" cy="${RY+RH}" r="5" fill="${inc?col:'var(--surface)'}" stroke="${col}" stroke-width="2"/>`});
+  if(!isNaN(score(p,0))){
+   const ga=cl(p.a),gb=cl(p.b),gx1=Math.max(x1,sx(lo)),gx2=Math.min(x2,sx(hi));
+   h+=`<line x1="${gx1}" y1="${sy(score(p,ga))}" x2="${gx2}" y2="${sy(score(p,gb))}" stroke="${col}" stroke-width="3" stroke-linecap="round"/>`;
+   if(p.a===-Infinity)h+=`<line x1="${x1}" y1="${sy(score(p,lo))}" x2="${gx1}" y2="${sy(score(p,lo))}" stroke="${col}" stroke-width="3" stroke-dasharray="4 4"/>`;
+   if(p.b===Infinity)h+=`<line x1="${gx2}" y1="${sy(score(p,hi))}" x2="${x2}" y2="${sy(score(p,hi))}" stroke="${col}" stroke-width="3" stroke-dasharray="4 4"/>`;
+   if(gx2-gx1>60){const mx=(gx1+gx2)/2,my=sy(score(p,(ga+gb)/2));h+=`<text x="${mx}" y="${my-10}" font-size="12" text-anchor="middle" fill="${bad?'var(--err-tx)':k.tx}">${p.eq?'оценка = выполнению':fmt(p.v)+' %'}</text>`}
+   [[p.a,p.ai],[p.b,p.bi]].forEach(([x,inc])=>{if(!isFinite(x))return;
+    h+=`<circle cx="${sx(x)}" cy="${sy(score(p,x))}" r="5.5" fill="${inc?col:'var(--surface)'}" stroke="${col}" stroke-width="2"/>`})}
+  [[p.a,p.ai],[p.b,p.bi]].forEach(([x,inc])=>{if(isFinite(x))h+=`<circle cx="${sx(x)}" cy="${RY+RH}" r="5" fill="${inc?col:'var(--surface)'}" stroke="${col}" stroke-width="2"/>`});
   h+='</g>'});
+ A.jumps.forEach(j=>{const x=sx(j.x),ya=sy(j.y1),yb=sy(j.y2),d=yb>ya?1:-1;
+  h+=`<line x1="${x}" y1="${ya}" x2="${x}" y2="${yb-d*8}" stroke="var(--gap-line)" stroke-width="3"/><path d="M${x-7} ${yb-d*10} L${x+7} ${yb-d*10} L${x} ${yb}Z" fill="var(--gap-line)"/>`;
+  h+=badge(x,Math.max(GT+12,Math.min(ya,yb)-12),`смена направления: ${fmt(j.y1)} → ${fmt(j.y2)} %`,'var(--err-bg)','var(--err-tx)')});
  if(!isNaN(pv)){const x=sx(pv),hs=hits(A.P,pv);
   h+=`<line x1="${x}" y1="${GT}" x2="${x}" y2="${RY+RH}" stroke="var(--text)" stroke-width="1.2" stroke-dasharray="3 3"/>`;
   if(hs.length===1){const yv=score(hs[0],pv);h+=`<circle cx="${x}" cy="${sy(yv)}" r="6" fill="var(--text)"/>`+badge(x,sy(yv)-16,`${fmt(pv)} → ${fmt(yv)} %`,'var(--text)','var(--surface)')}}
- const svg=document.getElementById('chart');svg.innerHTML=h;
+ document.getElementById('chart').innerHTML=h;
 }
 
 function status(p){
- if(p.err)return['Ошибка: '+p.err,'var(--err-bg)','var(--err-tx)'];
- if(p.ov)return['Пересекается с другим интервалом','var(--warn-bg)','var(--warn-tx)'];
+ if(p.errs.length)return['Ошибка: '+p.errs[0].text,'var(--err-bg)','var(--err-tx)'];
+ if(p.jump)return['Оценка меняет направление','var(--err-bg)','var(--err-tx)'];
  if(p.filled)return['Заполнен','var(--ok-bg)','var(--ok-tx)'];
  if(p.any)return['Не заполнено: '+p.missing.join(', '),'var(--warn-bg)','var(--warn-tx)'];
  return['Не заполнен','var(--field-dis)','var(--text2)']}
@@ -262,37 +395,52 @@ const opts=(list,cur)=>list.map(o=>`<option value="${esc(o)}"${o===cur?' selecte
 
 function rows(A){
  const box=document.getElementById('rows');const ae=document.activeElement;const fid=ae&&ae.dataset?ae.dataset.id:null;const sel=ae&&ae.selectionStart!=null?ae.selectionStart:null;
- box.innerHTML='';
+ box.innerHTML='';const n=R.length;
  A.P.forEach(p=>{const r=R[p.i],k=PAL[p.i%PAL.length],[st,sb,sc]=status(p);
-  const bc=p.err?'var(--gap-line)':p.ov?'var(--ov-line)':p.filled?k.c:'var(--border2)';
-  const aDis=r.s1==='Нет'||r.la,bDis=r.lb;
+  const bc=p.errs.length||p.jump?'var(--gap-line)':p.filled?k.c:'var(--border2)';
+  const rh=H.map((h,k)=>Object.assign({k},h)).filter(h=>h.row===p.i);
+  const at=new Set(rh.flatMap(h=>h.attn));const A_=x=>at.has(x)?' attn e':'';
+  const prevB=p.first?'':R[p.i-1].b;
+  const aCell=p.first?`<div class="infchip" title="Первый интервал всегда начинается с минус бесконечности — это не меняется">−∞</div>`
+   :`<input data-id="${p.i}-a" value="${esc(prevB)}" placeholder="из интервала ${p.i}" disabled title="Начало = конец интервала ${p.i}. Чтобы изменить, поправьте границу интервала ${p.i}" aria-label="Начало интервала ${p.i+1}">`;
+  const s1=p.first?'<':(p.ai?'<=':'<');
+  const bCell=p.last?`<div class="infchip" title="Последний интервал всегда идёт до плюс бесконечности — это не меняется">+∞</div>`
+   :`<input data-id="${p.i}-b" data-f="b" class="${A_('b').trim()}" inputmode="decimal" value="${esc(r.b)}" placeholder="Введите число" aria-label="Граница интервала ${p.i+1}">`;
+  const s2=p.last?`<select disabled aria-label="Знак конца" title="Последний интервал идёт до +∞">${opts(['<'],'<')}</select>`
+   :`<select data-id="${p.i}-s2" data-f="s2" aria-label="Знак конца" title="«<=» — граница входит в этот интервал, «<» — в следующий">${opts(['<','<='],r.s2)}</select>`;
+  const ban=eqBan(),eqDis=(ban||p.first||p.last)&&!r.eq;
   const el=document.createElement('div');el.className='rw'+(hov===p.i?' hl':'');el.dataset.row=p.i;el.style.borderLeftColor=bc;
-  el.innerHTML=`<div class="rw-head"><span class="num" style="background:${p.filled?k.bg:'var(--field-dis)'};color:${p.filled?k.tx:'var(--text2)'}">${p.i+1}</span>Интервал ${p.i+1}<span class="tag" style="background:${sb};color:${sc};margin-left:auto">${esc(st)}</span></div>
+  el.innerHTML=`<div class="rw-head"><span class="num" style="background:${p.filled?k.bg:'var(--field-dis)'};color:${p.filled?k.tx:'var(--text2)'}">${p.i+1}</span>Интервал ${p.i+1}
+   ${p.first?'<span class="pos">первый · от −∞</span>':p.last?'<span class="pos">последний · до +∞</span>':''}
+   <span class="tag" style="background:${sb};color:${sc};margin-left:auto;white-space:normal">${esc(st)}</span></div>
   <div class="rw-grid">
-   <input data-id="${p.i}-a" data-f="a" inputmode="decimal" value="${esc(r.s1==='Нет'?'':(r.a??''))}" placeholder="${r.s1==='Нет'?'—':'Введите число'}" ${aDis?'disabled':''} title="${r.la?'Берётся из конца предыдущего интервала':r.s1==='Нет'?'Нижней границы нет':''}" aria-label="Начало интервала ${p.i+1}">
-   <select data-id="${p.i}-s1" data-f="s1" aria-label="Знак начала">${opts(['Нет','<','<='],r.s1)}</select>
+   ${aCell}
+   <select disabled aria-label="Знак начала" title="${p.first?'Интервал начинается с −∞':'Подставляется автоматически: граница, не вошедшая в предыдущий интервал, входит в этот'}">${opts([s1],s1)}</select>
    <span class="val-lbl" title="Значение выполнения КПЭ">Значение</span>
-   <select data-id="${p.i}-s2" data-f="s2" aria-label="Знак конца">${opts(['<','<=','>','>='],r.s2)}</select>
-   <input data-id="${p.i}-b" data-f="b" inputmode="decimal" value="${esc(r.b??'')}" placeholder="Введите число" ${bDis?'disabled':''} title="${r.lb?'Берётся из конца предыдущего интервала':''}" aria-label="Граница интервала ${p.i+1}">
-   <div class="pct"><input data-id="${p.i}-v" data-f="v" inputmode="decimal" value="${esc(r.eq?'':(r.v??''))}" placeholder="Оценка" ${r.eq?'disabled':''} aria-label="Оценка интервала ${p.i+1}"></div>
-   <label class="eq"><input type="checkbox" data-id="${p.i}-eq" data-f="eq" ${r.eq?'checked':''}>Оценка = Значению<br>выполнения КПЭ</label>
-   <button class="icon" data-del="${p.i}" aria-label="Удалить интервал ${p.i+1}" title="Удалить интервал"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>
-  </div>`;
+   ${s2}
+   ${bCell}
+   <div class="pct"><input data-id="${p.i}-v" data-f="v" class="${A_('v').trim()}" type="text" inputmode="decimal" value="${esc(r.eq?'':r.v)}" placeholder="0–100" ${r.eq?'disabled':''} aria-label="Оценка интервала ${p.i+1}, от 0 до 100"></div>
+   <label class="eq${A_('eq')}" title="${eqDis?(ban?`Недоступно: формула КПЭ абсолютная, а единица измерения — «${esc(K.unit)}», не проценты`:'Недоступно: интервал уходит в бесконечность, а оценка должна быть 0–100 %'):''}"><input type="checkbox" data-id="${p.i}-eq" data-f="eq" ${r.eq?'checked':''} ${eqDis?'disabled':''}>Оценка = Значению<br>выполнения КПЭ</label>
+   <button class="icon" data-del="${p.i}" ${n<=2?'disabled style="opacity:.35;cursor:not-allowed"':''} aria-label="Удалить интервал ${p.i+1}" title="${n<=2?'В шкале минимум два интервала: от −∞ и до +∞':'Удалить интервал — соседние сомкнутся'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>
+  </div>
+  <div class="read">${reading(p)}</div>
+  ${rh.map(h=>`<div class="hint${h.err?' err':''}" role="note"><span class="tx">${h.text}</span>${h.btn?`<button type="button" data-fix="${h.k}">${esc(h.btn)}</button>`:''}</div>`).join('')}`;
   box.appendChild(el)});
  if(fid){const el=box.querySelector(`[data-id="${fid}"]`);if(el&&!el.disabled){el.focus();if(sel!=null&&el.setSelectionRange)try{el.setSelectionRange(sel,sel)}catch(e){}}}
 }
 
 function problems(A){const m=[];
- A.P.forEach(p=>{if(p.err)m.push(`Интервал ${p.i+1}: ${p.err}`);else if(!p.filled)m.push(`Интервал ${p.i+1}: не заполнено — ${(p.missing.length?p.missing:['все поля']).join(', ')}`)});
- A.gaps.forEach(g=>m.push(g.a===-Infinity&&g.b===Infinity?'Шкала не заполнена':g.pt?`Значение ${fmt(g.a)} не попадает ни в один интервал`:g.b===Infinity?`Не покрыты значения от ${fmt(g.a)} и выше`:g.a===-Infinity?`Не покрыты значения ниже ${fmt(g.b)}`:`Не покрыты значения ${fmt(g.a)}–${fmt(g.b)}`));
- A.ovs.forEach(o=>m.push(o.pt?`Значение ${fmt(o.a)} попадает в несколько интервалов`:`Значения ${fmt(o.a)}–${fmt(o.b)} попадают в несколько интервалов`));
+ A.P.forEach(p=>{p.errs.forEach(e=>m.push(`Интервал ${p.i+1}: ${e.text}`));
+  if(p.missing.length)m.push(`Интервал ${p.i+1}: не заполнено — ${p.missing.join(', ')}`)});
+ A.jumps.forEach(j=>m.push(`Интервал ${j.q+1}: оценка меняет направление (${fmt(j.y1)} → ${fmt(j.y2)} %), а до этого ${dirWord(j.dir)}`));
  return m}
 
-function summary(A,m){const s=document.getElementById('sum');
- if(!m.length){s.textContent='Шкала полная, без пересечений';s.style.background='var(--ok-bg)';s.style.color='var(--ok-tx)'}
- else{const g=A.gaps.length,o=A.ovs.length,inc=A.P.filter(p=>!p.filled).length,t=[];
-  if(g)t.push(g+(g===1?' разрыв':' разрыва'));if(o)t.push(o+' пересеч.');if(inc)t.push(inc+' не заполн.');
-  s.textContent=t.join(' · ');s.style.background='var(--warn-bg)';s.style.color='var(--warn-tx)'}
+function summary(A,m){const s=document.getElementById('sum'),dt=document.getElementById('dirTag');
+ dt.innerHTML=A.dir?`Направление: <b>оценка ${dirWord(A.dir)} ${A.dir>0?'↗':'↘'}</b>`:'Направление: <b>определится по оценкам</b>';
+ if(!m.length){s.textContent=`Шкала полная · оценка ${A.dir?dirWord(A.dir):'постоянная'} · 0–100 %`;s.style.background='var(--ok-bg)';s.style.color='var(--ok-tx)'}
+ else{const e=A.P.reduce((c,p)=>c+p.errs.length,0),j=A.jumps.length,inc=A.P.filter(p=>p.missing.length).length,t=[];
+  if(e)t.push(e+(e===1?' ошибка':e<5?' ошибки':' ошибок'));if(j)t.push(j+(j===1?' смена направления':' смены направления'));if(inc)t.push(inc+' не заполн.');
+  s.textContent=t.join(' · ');s.style.background=e||j?'var(--err-bg)':'var(--warn-bg)';s.style.color=e||j?'var(--err-tx)':'var(--warn-tx)'}
  const btn=document.getElementById('save'),hint=document.getElementById('saveHint');
  btn.setAttribute('aria-disabled',m.length?'true':'false');
  hint.className='save-hint'+(m.length?' has':'');hint.innerHTML=m.length?`<b>Нельзя сохранить:</b><ul>${m.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
@@ -300,16 +448,17 @@ function summary(A,m){const s=document.getElementById('sum');
 function probe(A){const el=document.getElementById('pres');const v=num(document.getElementById('probe').value);
  if(isNaN(v)){el.innerHTML='';return}
  const hs=hits(A.P,v);
- if(!hs.length){el.innerHTML='<span style="color:var(--err-tx)">Не попадает ни в один интервал — оценка не рассчитается</span>';return}
- if(hs.length>1){el.innerHTML=`<span style="color:var(--warn-tx)">Попадает в интервалы ${hs.map(h=>h.i+1).join(' и ')} — оценка неоднозначна</span>`;return}
+ if(!hs.length){el.innerHTML='<span style="color:var(--err-tx)">Оценка не рассчитается — заполните шкалу</span>';return}
  el.innerHTML=`Интервал ${hs[0].i+1} → оценка <b>${fmt(score(hs[0],v))} %</b>`}
 
-function toJSON(A){return{zone:document.getElementById('zone').value,intervals:A.P.map(p=>({
+function toJSON(A){return{zone:document.getElementById('zone').value,kpi:{formula:K.formula==='abs'?'absolute':'relative',unit:K.unit},direction:A.dir>0?'increasing':A.dir<0?'decreasing':'constant',intervals:A.P.map(p=>({
  from:isFinite(p.a)?p.a:null,fromInclusive:isFinite(p.a)?p.ai:null,
  to:isFinite(p.b)?p.b:null,toInclusive:isFinite(p.b)?p.bi:null,
  score:p.eq?null:(isNaN(p.v)?null:p.v),scoreEqualsValue:p.eq}))}}
 
-function render(){const A=analyze();const m=problems(A);draw(A);rows(A);summary(A,m);probe(A);
+function render(){const kn=document.getElementById('kNote');kn.innerHTML=eqBan()?`<span style="color:var(--warn-tx)">При абсолютной формуле и единице «${esc(K.unit)}» вариант «Оценка = значению выполнения» недоступен — значение не в процентах.</span>`:'';
+ const A=analyze();H=hints(A);const m=problems(A);draw(A);rows(A);summary(A,m);probe(A);
+ ['seq','mono','range'].forEach(k=>document.getElementById('rec'+k[0].toUpperCase()+k.slice(1)).classList.toggle('glow',H.some(h=>h.rec===k)));
  document.getElementById('json').textContent=JSON.stringify(toJSON(A),null,2);persist()}
 
 function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2200)}
@@ -318,19 +467,24 @@ const box=document.getElementById('rows');
 const upd=t=>{if(!t.dataset.f)return;const i=+t.dataset.id.split('-')[0];R[i][t.dataset.f]=t.type==='checkbox'?t.checked:t.value;render()};
 box.addEventListener('input',e=>{if(e.target.tagName==='INPUT'&&e.target.type!=='checkbox')upd(e.target)});
 box.addEventListener('change',e=>{if(e.target.tagName==='SELECT'||e.target.type==='checkbox')upd(e.target)});
-box.addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;R.splice(+b.dataset.del,1);hov=-1;render()});
+box.addEventListener('click',e=>{const f=e.target.closest('[data-fix]');if(f){applyFix(+f.dataset.fix);return}
+ const b=e.target.closest('[data-del]');if(!b||b.disabled||R.length<=2)return;const i=+b.dataset.del;
+ R.splice(i,1);hov=-1;render()});
 function setHov(n){if(n===hov)return;hov=n;draw(analyze());document.querySelectorAll('.rw').forEach(x=>x.classList.toggle('hl',+x.dataset.row===hov))}
 box.addEventListener('mouseover',e=>{const r=e.target.closest('[data-row]');setHov(r?+r.dataset.row:-1)});
 box.addEventListener('mouseleave',()=>setHov(-1));
 box.addEventListener('focusin',e=>{const r=e.target.closest('[data-row]');if(r)setHov(+r.dataset.row)});
 document.getElementById('chart').addEventListener('click',e=>{const g=e.target.closest('[data-seg]');if(!g)return;const row=box.querySelector(`[data-row="${g.dataset.seg}"]`);if(row){row.scrollIntoView({behavior:'smooth',block:'center'});setHov(+g.dataset.seg)}});
-document.getElementById('add').onclick=()=>{const l=R[R.length-1];R.push({s1:l?(l.s2==='<'?'<=':'<'):'Нет',s2:'<',a:'',b:'',v:'',eq:false});render();
- const el=box.querySelector(`[data-id="${R.length-1}-b"]`);if(el&&!el.disabled)el.focus()};
+document.getElementById('add').onclick=()=>{const at=R.length-1;R.splice(at,0,row('<','','',false));render();
+ const el=box.querySelector(`[data-id="${at}-b"]`);if(el){el.focus();el.scrollIntoView({behavior:'smooth',block:'center'})}};
 document.getElementById('probe').addEventListener('input',()=>{const A=analyze();draw(A);probe(A)});
 document.getElementById('zone').addEventListener('change',render);
+const kF=document.getElementById('kForm'),kU=document.getElementById('kUnit');kF.value=K.formula;kU.value=K.unit;
+const kChange=()=>{K={formula:kF.value,unit:kU.value};try{localStorage.setItem(KEY+'-kpi',JSON.stringify(K))}catch(e){}render()};
+kF.addEventListener('change',kChange);kU.addEventListener('change',kChange);
 
 const menu=document.getElementById('tplMenu'),tb=document.getElementById('tplBtn');
-menu.innerHTML=Object.entries(TEMPLATES).map(([k,t])=>`<button role="menuitem" data-tpl="${k}">${esc(t.name)}<small>${t.rows.length} ${t.rows.length===1?'интервал':t.rows.length<5?'интервала':'интервалов'}</small></button>`).join('');
+menu.innerHTML=Object.entries(TEMPLATES).map(([k,t])=>`<button role="menuitem" data-tpl="${k}">${esc(t.name)}<small>${t.rows.length} ${t.rows.length<5?'интервала':'интервалов'}</small></button>`).join('');
 tb.onclick=()=>{const o=menu.classList.toggle('open');tb.setAttribute('aria-expanded',o)};
 menu.onclick=e=>{const b=e.target.closest('[data-tpl]');if(!b)return;R=clone(TEMPLATES[b.dataset.tpl].rows);menu.classList.remove('open');tb.setAttribute('aria-expanded',false);render();toast('Шаблон применён')};
 document.addEventListener('click',e=>{if(!e.target.closest('.tpl')){menu.classList.remove('open');tb.setAttribute('aria-expanded',false)}});
@@ -338,6 +492,10 @@ document.addEventListener('click',e=>{if(!e.target.closest('.tpl')){menu.classLi
 document.getElementById('save').onclick=()=>{const A=analyze();const m=problems(A);
  if(m.length){toast('Сначала исправьте шкалу: '+m[0]);return}
  toast('Шкала сохранена')};
+document.getElementById('newBtn').onclick=()=>{const has=R.some(r=>r.b!==''||r.v!==''||r.eq);
+ if(has&&!confirm('Создать новую шкалу? Текущие интервалы будут удалены.'))return;
+ R=clone(TEMPLATES.empty.rows);hov=-1;document.getElementById('probe').value='';render();
+ const el=box.querySelector('[data-id="0-b"]');if(el)el.focus();toast('Создана пустая шкала')};
 document.getElementById('cancel').onclick=()=>{if(confirm('Сбросить шкалу к исходному примеру?')){R=clone(TEMPLATES.example.rows);render()}};
 document.getElementById('copy').onclick=()=>{const t=document.getElementById('json').textContent;
  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('JSON скопирован'),()=>toast('Не удалось скопировать'))};
